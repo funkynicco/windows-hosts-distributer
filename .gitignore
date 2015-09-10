@@ -1,0 +1,8 @@
+/Output
+/Updater/bin
+/Updater/obj
+/WindowsHostDistributer/bin
+/WindowsHostDistributer/obj
+
+*.suo
+*.user
