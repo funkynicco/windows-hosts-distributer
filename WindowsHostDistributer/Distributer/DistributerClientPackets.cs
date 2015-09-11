@@ -35,12 +35,12 @@ namespace WindowsHostDistributer.Distributer
             }
 
             HostsDatabase.Save();
-            EventCallbackSystem.InvokeCallback("HostsListUpdated");
+            EventCallbackSystem.InvokeCallback("HostsListUpdated", true);
 
             HostsDatabase.Lock();
             int numberOfHosts = HostsDatabase.Hosts.Count();
             HostsDatabase.Unlock();
-            Logger.Log(LogType.Debug, "Received {0} hosts from server.", numberOfHosts);
+            Logger.Log(LogType.Debug, "Received {0} hosts from server.", numberOfHosts.FormatNumber());
         }
 
         [Packet("add-domain")]
@@ -55,7 +55,7 @@ namespace WindowsHostDistributer.Distributer
                     param[2].Unescape(EscapeLanguage.Xml),
                     param[3] == "1");
                 HostsDatabase.Save();
-                EventCallbackSystem.InvokeCallback("HostsListUpdated");
+                EventCallbackSystem.InvokeCallback("HostsListUpdated", true);
 
                 Logger.Log(LogType.Debug,
                     "Added domain {0} = {1}",
@@ -77,7 +77,7 @@ namespace WindowsHostDistributer.Distributer
                     param[2].Unescape(EscapeLanguage.Xml),
                     param[3] == "1");
                 HostsDatabase.Save();
-                EventCallbackSystem.InvokeCallback("HostsListUpdated");
+                EventCallbackSystem.InvokeCallback("HostsListUpdated", true);
 
                 Logger.Log(LogType.Debug,
                     "Edited domain {0} = {1}",
@@ -92,7 +92,7 @@ namespace WindowsHostDistributer.Distributer
             if (HostsDatabase.Remove(false, data.Unescape(EscapeLanguage.Xml)))
             {
                 HostsDatabase.Save();
-                EventCallbackSystem.InvokeCallback("HostsListUpdated");
+                EventCallbackSystem.InvokeCallback("HostsListUpdated", true);
 
                 Logger.Log(LogType.Debug,
                     "Removed domain {0}",

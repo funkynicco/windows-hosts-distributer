@@ -17,6 +17,7 @@ namespace WindowsHostDistributer.Dialogs
     {
         private readonly DistributerClient _client = new DistributerClient();
         private readonly HostsFileSynchronizer _synchronizer;
+        private HostsSearchParameters _searchParameters = new HostsSearchParameters(string.Empty, string.Empty, string.Empty);
 
         public ClientForm(HostsFileSynchronizer synchronizer)
         {
@@ -42,7 +43,7 @@ namespace WindowsHostDistributer.Dialogs
                   {
                       Configuration.ShowHiddenHosts = !Configuration.ShowHiddenHosts;
                       hiddenDomainsToolStripMenuItem.Checked = Configuration.ShowHiddenHosts;
-                      EventCallbackSystem.InvokeCallback("HostsListUpdated");
+                      EventCallbackSystem.InvokeCallback("HostsListUpdated", false);
                   };
 
             RegisterEvents();
@@ -98,6 +99,39 @@ namespace WindowsHostDistributer.Dialogs
             notifyIcon1.MouseDoubleClick += (sender, e) => Show();
 
             Shown += ClientForm_Shown;
+            FormClosing += ClientForm_FormClosing;
+
+            startWithWindowsToolStripMenuItem.Checked = Configuration.StartWithWindows;
+
+            lvHosts.ListViewItemSorter = new HostsListViewSorter();
+            lvLocalHosts.ListViewItemSorter = new HostsListViewSorter();
+
+            lvHosts.ColumnClick += (sender, e) => ColumnClickHandler(lvHosts, e.Column);
+            lvLocalHosts.ColumnClick += (sender, e) => ColumnClickHandler(lvLocalHosts, e.Column);
+        }
+
+        private void ColumnClickHandler(ListView lv, int column)
+        {
+            var sorter = lv.ListViewItemSorter as HostsListViewSorter;
+            if (sorter == null)
+                return;
+
+            var col = HostsSortingColumn.Unsorted;
+            switch (column)
+            {
+                case 0: col = HostsSortingColumn.Name; break;
+                case 1: col = HostsSortingColumn.IP; break;
+            }
+
+            if (sorter.Sorting != col)
+            {
+                sorter.Sorting = col;
+                sorter.Inverted = false;
+            }
+            else
+                sorter.Inverted = !sorter.Inverted;
+
+            lv.Sort();
         }
 
         private async void ClientForm_Shown(object sender, EventArgs e)
@@ -113,6 +147,17 @@ namespace WindowsHostDistributer.Dialogs
                 }
             }
 #endif // !DEBUG
+
+            WindowState = Configuration.WindowState;
+            Size = Configuration.WindowSize;
+            Location = Configuration.WindowLocation;
+        }
+
+        private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Configuration.WindowLocation = Location;
+            Configuration.WindowSize = Size;
+            Configuration.WindowState = WindowState;
         }
 
         protected override void WndProc(ref Message m)
@@ -156,7 +201,7 @@ namespace WindowsHostDistributer.Dialogs
                         HostsDatabase.Add(true, dlg.DomainName, dlg.IPAddress, dlg.Description, dlg.HiddenDomain);
                         HostsDatabase.Save();
 
-                        EventCallbackSystem.InvokeCallback("HostsListUpdated");
+                        EventCallbackSystem.InvokeCallback("HostsListUpdated", true);
                     }
                 }
             }
@@ -212,7 +257,7 @@ namespace WindowsHostDistributer.Dialogs
                         }
 
                         HostsDatabase.Save();
-                        EventCallbackSystem.InvokeCallback("HostsListUpdated");
+                        EventCallbackSystem.InvokeCallback("HostsListUpdated", true);
                     }
                 }
             }
@@ -269,37 +314,67 @@ namespace WindowsHostDistributer.Dialogs
                     Logger.Log(LogType.Debug, "Authorized to server.");
                 });
 
-            EventCallbackSystem.RegisterCallback<HostsListUpdatedEvent>("HostsListUpdated", () =>
+            EventCallbackSystem.RegisterCallback<HostsListUpdatedEvent>("HostsListUpdated", (changed) =>
                  {
                      lvHosts.BeginUpdate();
                      lvLocalHosts.BeginUpdate();
                      lvHosts.Items.Clear();
                      lvLocalHosts.Items.Clear();
                      HostsDatabase.Lock();
+
+                     var lviList = new List<ListViewItem>(Math.Max(HostsDatabase.Hosts.Count(), HostsDatabase.LocalHosts.Count()));
+
                      foreach (var host in HostsDatabase.Hosts)
                      {
-                         if (Configuration.ShowHiddenHosts ||
-                            !host.Hidden)
+                         if ((Configuration.ShowHiddenHosts ||
+                            !host.Hidden) &&
+                            _searchParameters.Matches(host))
                          {
                              var lvi = new ListViewItem(host.Name);
                              lvi.SubItems.Add(host.IP);
                              lvi.SubItems.Add(host.Description);
                              lvi.Tag = host;
-                             lvHosts.Items.Add(lvi);
+                             //lvHosts.Items.Add(lvi);
+                             lviList.Add(lvi);
                          }
                      }
+                     lvHosts.Items.AddRange(lviList.ToArray());
+                     if (lvHosts.Items.Count < HostsDatabase.Hosts.Count())
+                     {
+                         gbHosts.Text = string.Format(
+                             "Domains ({0} of {1})",
+                             lvHosts.Items.Count.FormatNumber(),
+                             HostsDatabase.Hosts.Count().FormatNumber());
+                     }
+                     else
+                         gbHosts.Text = string.Format("Domains ({0})", lvHosts.Items.Count.FormatNumber());
+                     lviList.Clear();
+
                      foreach (var host in HostsDatabase.LocalHosts)
                      {
-                         if (Configuration.ShowHiddenHosts ||
-                            !host.Hidden)
+                         if ((Configuration.ShowHiddenHosts ||
+                            !host.Hidden) &&
+                            _searchParameters.Matches(host))
                          {
                              var lvi = new ListViewItem(host.Name);
                              lvi.SubItems.Add(host.IP);
                              lvi.SubItems.Add(host.Description);
                              lvi.Tag = host;
-                             lvLocalHosts.Items.Add(lvi);
+                             //lvLocalHosts.Items.Add(lvi);
+                             lviList.Add(lvi);
                          }
                      }
+                     lvLocalHosts.Items.AddRange(lviList.ToArray());
+                     if (lvLocalHosts.Items.Count < HostsDatabase.LocalHosts.Count())
+                     {
+                         gbLocalHosts.Text = string.Format(
+                             "Local domains ({0} of {1})",
+                             lvLocalHosts.Items.Count.FormatNumber(),
+                             HostsDatabase.LocalHosts.Count().FormatNumber());
+                     }
+                     else
+                         gbLocalHosts.Text = string.Format("Local domains ({0})", lvLocalHosts.Items.Count.FormatNumber());
+
                      HostsDatabase.Unlock();
                      lvHosts.EndUpdate();
                      lvLocalHosts.EndUpdate();
@@ -307,7 +382,8 @@ namespace WindowsHostDistributer.Dialogs
 
                      UpdateInterface();
 
-                     _synchronizer.PostSynchronize();
+                     if (changed) // only synchronize if the hostsdatabase was literally changed - ignore searching
+                         _synchronizer.PostSynchronize();
                  });
         }
 
@@ -315,7 +391,7 @@ namespace WindowsHostDistributer.Dialogs
         {
             var listViewArea = new Rectangle(5, menuStrip1.Height + 5, Convert.ToInt32(ClientSize.Width * 0.60) - 10, ClientSize.Height - 5);
 
-#region lvHosts and lvLocalHosts
+            #region lvHosts and lvLocalHosts
             int gbHeight = (listViewArea.Height - menuStrip1.Height - 10) / 2;
 
             // Name, IP, Description columns
@@ -325,19 +401,19 @@ namespace WindowsHostDistributer.Dialogs
             gbLocalHosts.Location = new Point(listViewArea.X, gbHosts.Location.Y + gbHosts.Size.Height + 5);
             gbLocalHosts.Size = new Size(listViewArea.Width, gbHeight);
 
-            lvHosts.Columns[0].Width = Convert.ToInt32(lvHosts.ClientSize.Width * 0.20);
+            lvHosts.Columns[0].Width = Convert.ToInt32(lvHosts.ClientSize.Width * 0.40);
             lvHosts.Columns[1].Width = Convert.ToInt32(lvHosts.ClientSize.Width * 0.20);
-            lvHosts.Columns[2].Width = Convert.ToInt32(lvHosts.ClientSize.Width * 0.60);
+            lvHosts.Columns[2].Width = Convert.ToInt32(lvHosts.ClientSize.Width * 0.40) - 1;
 
-            lvLocalHosts.Columns[0].Width = Convert.ToInt32(lvLocalHosts.ClientSize.Width * 0.20);
+            lvLocalHosts.Columns[0].Width = Convert.ToInt32(lvLocalHosts.ClientSize.Width * 0.40);
             lvLocalHosts.Columns[1].Width = Convert.ToInt32(lvLocalHosts.ClientSize.Width * 0.20);
-            lvLocalHosts.Columns[2].Width = Convert.ToInt32(lvLocalHosts.ClientSize.Width * 0.60);
-#endregion
+            lvLocalHosts.Columns[2].Width = Convert.ToInt32(lvLocalHosts.ClientSize.Width * 0.40) - 1;
+            #endregion
 
-#region txtLog
+            #region txtLog
             gbLog.Location = new Point(listViewArea.Right + 5, menuStrip1.Height + 5);
             gbLog.Size = new Size(ClientSize.Width - gbLog.Location.X - 10, ClientSize.Height - (menuStrip1.Height + 10));
-#endregion
+            #endregion
         }
 
         private void addNewHostToolStripMenuItem_Click(object sender, EventArgs e)
@@ -350,7 +426,7 @@ namespace WindowsHostDistributer.Dialogs
                     {
                         HostsDatabase.Add(true, dlg.DomainName, dlg.IPAddress, dlg.Description, dlg.HiddenDomain);
                         HostsDatabase.Save();
-                        EventCallbackSystem.InvokeCallback("HostsListUpdated");
+                        EventCallbackSystem.InvokeCallback("HostsListUpdated", true);
                     }
                     else
                         _client.SendAddDomain(dlg.DomainName, dlg.IPAddress, dlg.Description, dlg.HiddenDomain);
@@ -358,7 +434,7 @@ namespace WindowsHostDistributer.Dialogs
             }
         }
 
-#region Convert hosts file into hosts.xml (menu item)
+        #region Convert hosts file into hosts.xml (menu item)
         private void convertHostsFileIntoHostsxmlToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var ofd = new OpenFileDialog()
@@ -446,6 +522,25 @@ namespace WindowsHostDistributer.Dialogs
                 }
             }
         }
-#endregion
+        #endregion
+
+        private void startWithWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            startWithWindowsToolStripMenuItem.Checked = !startWithWindowsToolStripMenuItem.Checked;
+            Configuration.StartWithWindows = startWithWindowsToolStripMenuItem.Checked;
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new SearchDlg())
+            {
+                dlg.SearchParameters = _searchParameters;
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    _searchParameters = dlg.SearchParameters;
+                    EventCallbackSystem.InvokeCallback("HostsListUpdated", false);
+                }
+            }
+        }
     }
 }

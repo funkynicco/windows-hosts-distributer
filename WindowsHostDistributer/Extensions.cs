@@ -148,6 +148,7 @@ namespace WindowsHostDistributer
         }
         #endregion
 
+        #region Escape and Unescape
         public static string Escape(this string str, EscapeLanguage language)
         {
             var sb = new StringBuilder(str.Length);
@@ -271,6 +272,28 @@ namespace WindowsHostDistributer
             }
 
             return sb.ToString();
+        }
+        #endregion
+
+        /// <summary>
+        /// Reverses a string.
+        /// </summary>
+        public static string Reverse(this string str)
+        {
+            var sb = new StringBuilder(str.Length);
+            for (int i = str.Length - 1; i >= 0; --i)
+                sb.Append(str[i]);
+            return sb.ToString();
+        }
+
+        public static string FormatNumber(this int num)
+        {
+            return Utilities.FormatNumber(num.ToString());
+        }
+
+        public static string FormatNumber(this long num)
+        {
+            return Utilities.FormatNumber(num.ToString());
         }
     }
 

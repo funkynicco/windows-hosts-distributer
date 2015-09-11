@@ -57,6 +57,8 @@ namespace WindowsHostDistributer.Dialogs
                                 msg.Text));
                         });
                 };
+
+            startWithWindowsToolStripMenuItem.Checked = Configuration.ServerStartWithWindows;
         }
 
         private void AddLog(string text)
@@ -66,6 +68,12 @@ namespace WindowsHostDistributer.Dialogs
 
             txtLog.AppendText(text);
             txtLog.Select(txtLog.Text.Length, 0);
+        }
+
+        private void startWithWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            startWithWindowsToolStripMenuItem.Checked = !startWithWindowsToolStripMenuItem.Checked;
+            Configuration.ServerStartWithWindows = startWithWindowsToolStripMenuItem.Checked;
         }
     }
 }

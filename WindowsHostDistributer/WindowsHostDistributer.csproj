@@ -70,6 +70,12 @@
       <DependentUpon>ClientForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuration.cs" />
+    <Compile Include="Dialogs\SearchDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SearchDlg.Designer.cs">
+      <DependentUpon>SearchDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Distributer\DataValidationException.cs" />
     <Compile Include="Distributer\DistributerClient.cs" />
     <Compile Include="Distributer\DistributerClientPackets.cs" />
@@ -81,6 +87,7 @@
     <Compile Include="GlobalRules.cs" />
     <Compile Include="HostsDatabase.cs" />
     <Compile Include="HostsFileSynchronizer.cs" />
+    <Compile Include="HostsListViewSorter.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Media.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -102,6 +109,7 @@
     </Compile>
     <Compile Include="SingleInstanceChecker.cs" />
     <Compile Include="UpdateManager.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="Win32.cs" />
     <EmbeddedResource Include="Dialogs\AddEditHostDlg.resx">
       <DependentUpon>AddEditHostDlg.cs</DependentUpon>
@@ -111,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ClientForm.resx">
       <DependentUpon>ClientForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\SearchDlg.resx">
+      <DependentUpon>SearchDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Media.resx">
       <Generator>ResXFileCodeGenerator</Generator>

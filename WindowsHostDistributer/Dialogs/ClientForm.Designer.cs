@@ -36,10 +36,13 @@
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hostsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewHostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hiddenDomainsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertHostsFileIntoHostsxmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startWithWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbHosts = new System.Windows.Forms.GroupBox();
             this.gbLocalHosts = new System.Windows.Forms.GroupBox();
             this.gbLog = new System.Windows.Forms.GroupBox();
@@ -85,7 +88,8 @@
             this.menuToolStripMenuItem,
             this.hostsToolStripMenuItem,
             this.viewToolStripMenuItem,
-            this.toolsToolStripMenuItem});
+            this.toolsToolStripMenuItem,
+            this.optionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(913, 24);
@@ -101,7 +105,8 @@
             // hostsToolStripMenuItem
             // 
             this.hostsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addNewHostToolStripMenuItem});
+            this.addNewHostToolStripMenuItem,
+            this.toolStripMenuItem1});
             this.hostsToolStripMenuItem.Name = "hostsToolStripMenuItem";
             this.hostsToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.hostsToolStripMenuItem.Text = "Hosts";
@@ -114,6 +119,14 @@
             this.addNewHostToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.addNewHostToolStripMenuItem.Text = "Add new host";
             this.addNewHostToolStripMenuItem.Click += new System.EventHandler(this.addNewHostToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(189, 22);
+            this.toolStripMenuItem1.Text = "Search hosts";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // viewToolStripMenuItem
             // 
@@ -144,6 +157,21 @@
             this.convertHostsFileIntoHostsxmlToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.convertHostsFileIntoHostsxmlToolStripMenuItem.Text = "Convert hosts file into hosts.xml";
             this.convertHostsFileIntoHostsxmlToolStripMenuItem.Click += new System.EventHandler(this.convertHostsFileIntoHostsxmlToolStripMenuItem_Click);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startWithWindowsToolStripMenuItem});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // startWithWindowsToolStripMenuItem
+            // 
+            this.startWithWindowsToolStripMenuItem.Name = "startWithWindowsToolStripMenuItem";
+            this.startWithWindowsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.startWithWindowsToolStripMenuItem.Text = "Start with Windows";
+            this.startWithWindowsToolStripMenuItem.Click += new System.EventHandler(this.startWithWindowsToolStripMenuItem_Click);
             // 
             // gbHosts
             // 
@@ -236,6 +264,9 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem convertHostsFileIntoHostsxmlToolStripMenuItem;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startWithWindowsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 

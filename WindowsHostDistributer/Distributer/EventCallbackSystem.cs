@@ -9,7 +9,7 @@ namespace WindowsHostDistributer.Distributer
 {
     // Client Delegates
     public delegate void ClientAuthorizedEvent();
-    public delegate void HostsListUpdatedEvent();
+    public delegate void HostsListUpdatedEvent(bool changed);
 
     // Server Delegates
 

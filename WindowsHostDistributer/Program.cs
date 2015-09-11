@@ -16,8 +16,8 @@ namespace WindowsHostDistributer
         public const string ClientInstanceGuid = "{BBDEEC2E-75AC-4453-BE9B-23138083F684}";
         public const string ServerInstanceGuid = "{26B10B80-5BFE-4937-88D4-3445CF874C67}";
 
-        // Any protocol changes should increment this version value in order to disallow uploads with mismatching version number.
-        public const int Version = 1;
+        // Increase version to cause new update.
+        public const int Version = 3;
 
         //public const string DomainAddress = "localhost:2004";
         public const string DomainAddress = "whd.nprog.com";
@@ -30,7 +30,7 @@ namespace WindowsHostDistributer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            
             var serverMode = false;
 
             var args = Environment.GetCommandLineArgs();
