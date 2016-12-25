@@ -17,7 +17,7 @@ namespace WindowsHostDistributer
         public const string ServerInstanceGuid = "{26B10B80-5BFE-4937-88D4-3445CF874C67}";
 
         // Increase version to cause new update.
-        public const int Version = 3;
+        public const int Version = 4;
 
         //public const string DomainAddress = "localhost:2004";
         public const string DomainAddress = "whd.nprog.com";
@@ -32,6 +32,7 @@ namespace WindowsHostDistributer
             Application.SetCompatibleTextRenderingDefault(false);
             
             var serverMode = false;
+            var startInTray = false;
 
             var args = Environment.GetCommandLineArgs();
             for (int i = 0; i < args.Length; ++i)
@@ -52,6 +53,11 @@ namespace WindowsHostDistributer
                 else if (string.Compare(args[i], "-autostart", true) == 0)
                 {
                     Environment.CurrentDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+                    startInTray = true;
+                }
+                else if (string.Compare(args[i], "-tray", true) == 0)
+                {
+                    startInTray = true;
                 }
             }
 
@@ -125,7 +131,7 @@ namespace WindowsHostDistributer
                     }
 
                     using (var hfs = new HostsFileSynchronizer())
-                    using (var form = new ClientForm(hfs))
+                    using (var form = new ClientForm(hfs, startInTray))
                     {
                         Application.Run(form);
                     }

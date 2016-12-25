@@ -18,10 +18,12 @@ namespace WindowsHostDistributer.Dialogs
         private readonly DistributerClient _client = new DistributerClient();
         private readonly HostsFileSynchronizer _synchronizer;
         private HostsSearchParameters _searchParameters = new HostsSearchParameters(string.Empty, string.Empty, string.Empty);
+        private readonly bool _startInTray = false;
 
-        public ClientForm(HostsFileSynchronizer synchronizer)
+        public ClientForm(HostsFileSynchronizer synchronizer,bool startInTray)
         {
             _synchronizer = synchronizer;
+            _startInTray = startInTray;
             InitializeComponent();
             Font = new Font(Configuration.FontFamily, Configuration.FontSize);
 
@@ -151,6 +153,9 @@ namespace WindowsHostDistributer.Dialogs
             WindowState = Configuration.WindowState;
             Size = Configuration.WindowSize;
             Location = Configuration.WindowLocation;
+
+            if (_startInTray)
+                Hide();
         }
 
         private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
