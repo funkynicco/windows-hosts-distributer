@@ -21,17 +21,18 @@ gulp.task('less', function () {
         .pipe(gulp.dest(webroot + '/css'));
 })
 
-gulp.task('copy', function () {
-    var bower = {
-        'angular': 'angular/angular*.{js,map}',
-        'angular-route': 'angular-route/angular-route.js',
-        'bootstrap': 'bootstrap/dist/**/*.{js,map,css,ttf,svg,woff,eot}',
-        'jquery': 'jquery/dist/jquery*.{js,map}',
-        'font-awesome': 'Font-Awesome/**/*.{css,otf,eot,svg,ttf,woff,wof2}'
-    };
+//gulp.task('copy', function () {
+//    var bower = {
+//        'angular': 'angular/angular*.{js,map}',
+//        'angular-route': 'angular-route/angular-route.js',
+//        'bootstrap': 'bootstrap/dist/**/*.{js,map,css,ttf,svg,woff,eot}',
+//        'jquery': 'jquery/dist/jquery*.{js,map}',
+//        'font-awesome': 'Font-Awesome/**/*.{css,otf,eot,svg,ttf,woff,woff2}',
+//        'dirPagination': 'dirPagination/*.{js,html}'
+//    };
 
-    for (var destinationDir in bower) {
-        gulp.src(bower_path + bower[destinationDir])
-          .pipe(gulp.dest(webroot + '/lib/' + destinationDir));
-    }
-})
+//    for (var destinationDir in bower) {
+//        gulp.src(bower_path + bower[destinationDir])
+//          .pipe(gulp.dest(webroot + '/lib/' + destinationDir));
+//    }
+//})

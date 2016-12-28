@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using WHD.IoC;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace WHD
 {
@@ -48,7 +49,22 @@ namespace WHD
                 app.UseDeveloperExceptionPage();
 
             app.UseDefaultFiles();
-            app.UseStaticFiles();
+
+            // add support for woff
+            var provider = new FileExtensionContentTypeProvider();
+            var staticFileOptions = new StaticFileOptions() { ContentTypeProvider = provider };
+            //provider.Mappings.Add(".woff2", "application/font-woff2");
+            if (env.IsDevelopment())
+            {
+                staticFileOptions.OnPrepareResponse = context =>
+                {
+                    context.Context.Response.Headers["Cache-Control"] = "no-cache, no-store";
+                    context.Context.Response.Headers["Pragma"] = "no-cache";
+                    context.Context.Response.Headers["Expires"] = "-1";
+                };
+            }
+            app.UseStaticFiles(staticFileOptions);
+
             app.UseMvc();
         }
     }

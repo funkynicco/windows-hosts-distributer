@@ -1,0 +1,14 @@
+﻿<md-dialog md-theme="default" aria-label="Confirm Delete Store">
+    <form ng-cloak>
+        <md-dialog-content class="md-dialog-content">
+            <h3>Confirm delete store</h3>
+            <p>Are you sure you wish to remove the store?</p>
+            <div class="alert alert-warning">The domains in this store will be moved to <a href="#!/domains?store=5" class="alert-link" target="_blank">Trash</a>.</div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button class="md-primary" ng-click="answer(false)">Cancel</md-button>
+            <md-button class="md-primary" ng-click="answer(true)">Delete</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,67 @@
+﻿<div class="container">
+    <ul class="breadcrumb breadcrumb-margin">
+        <li><a href="#!/home">Home</a></li>
+        <li class="active">Domains</li>
+    </ul>
+    <h1><span class="fa fa-cog"></span> Domains <span class="load-icon" ng-hide="!$ctrl.isLoading"></span></h1>
+    <div class="col-lg-8">
+        <div class="row">
+            <table class="table table-bordered table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>Domain</th>
+                        <th>IP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr dir-paginate="domain in $ctrl.domains | itemsPerPage: $ctrl.pageSize" current-page="$ctrl.currentPage" total-items="$ctrl.totalCount">
+                        <td><a href="#!/domains/{{domain.domain}}">{{domain.domain}}</a></td>
+                        <td>{{domain.ip}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <dir-pagination-controls boundary-links="true" on-page-change="$ctrl.pageChangeHandler(newPageNumber)" template-url="/lib/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="row side-bar">
+            <div class="panel panel-default">
+                <div class="panel-heading">Search domains</div>
+                <div class="panel-body">
+                    <select class="form-control" ng-model="$ctrl.filterStore">
+                        <option value="0">All stores</option>
+                        <option value="{{store.id}}" ng-repeat="store in $ctrl.stores">{{store.name}}</option>
+                    </select>
+                    <div class="spacer"></div>
+                    <input type="text" ng-model="$ctrl.filterDomain" class="form-control" placeholder="Domain name" />
+                    <div class="spacer"></div>
+                    <input type="text" ng-model="$ctrl.filterAddress" class="form-control" placeholder="IP address" />
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Add domain</div>
+                <div class="panel-body">
+                    <select class="form-control">
+                        <option value="{{store.id}}" ng-repeat="store in $ctrl.stores">{{store.name}}</option>
+                    </select>
+                    <div class="spacer"></div>
+                    <input type="text" placeholder="Domain (e.g teapot.com)" class="form-control" />
+                    <div class="spacer"></div>
+                    <input type="text" placeholder="IP address" class="form-control" />
+                    <div class="spacer"></div>
+                    <textarea placeholder="Description" class="form-control"></textarea>
+                    <div class="spacer"></div>
+                    <input type="button" value="Add" class="btn btn-primary" />
+                    <a href="#!/stores" class="pull-right btn btn-info">Manage stores</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

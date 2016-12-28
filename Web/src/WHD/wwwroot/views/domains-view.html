@@ -1,0 +1,38 @@
+﻿<div class="container">
+    <ul class="breadcrumb breadcrumb-margin">
+        <li><a href="#!/home">Home</a></li>
+        <li class="active">{{$ctrl.domain}}</li>
+    </ul>
+    <h1><span class="fa fa-bar-chart"></span> {{$ctrl.domain}}</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <table class="table table-bordered table-responsive key-value-table">
+                    <tbody>
+                        <tr>
+                            <td>IP</td>
+                            <td>{{$ctrl.details.ip}}</td>
+                        </tr>
+                        <tr>
+                            <td>Hits</td>
+                            <td>{{$ctrl.details.hits}}</td>
+                        </tr>
+                        <tr>
+                            <td>Last resolve</td>
+                            <td>{{$ctrl.details.lastResolve}}</td>
+                        </tr>
+                        <tr>
+                            <td>Added</td>
+                            <td>{{$ctrl.details.added}}</td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td>{{$ctrl.details.description}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

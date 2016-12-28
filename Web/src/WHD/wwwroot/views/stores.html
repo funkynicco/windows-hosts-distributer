@@ -1,0 +1,53 @@
+﻿<div class="container">
+    <ul class="breadcrumb breadcrumb-margin">
+        <li><a href="#!/home">Home</a></li>
+        <li class="active">Stores</li>
+    </ul>
+    <h1><span class="fa fa-cog"></span> Stores</h1>
+    <div class="col-lg-8">
+        <div class="row">
+            <table class="table table-bordered table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>Store</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="store in $ctrl.stores">
+                        <td>
+                            <span class="fa fa-lock" ng-hide="!store.locked"></span> <a href="#!/domains?store={{store.id}}">{{store.name}}</a>
+                            <div class="pull-right">
+                                <a href="#" ng-click="$ctrl.renameStoreItem($event, store.id, store.name)" class="btn-sm btn-warning" ng-hide="store.locked">Rename</a>
+                                <a href="#" ng-click="$ctrl.removeStoreItem($event, store.id, store.name)" class="btn-sm btn-danger" ng-hide="store.locked">Remove</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">{{$ctrl.stores.length}} store(s)</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="row side-bar">
+            <div class="panel panel-default">
+                <div class="panel-heading">Search stores</div>
+                <div class="panel-body">
+                    <input type="text" id="name_query" class="form-control" placeholder="Name" />
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Add store</div>
+                <div class="panel-body">
+                    <input type="text" placeholder="Name" class="form-control" />
+                    <div class="spacer"></div>
+                    <input type="button" value="Add" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

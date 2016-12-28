@@ -1,0 +1,24 @@
+﻿<div class="container">
+    <ul class="breadcrumb breadcrumb-margin">
+        <li><a href="#!/home">Home</a></li>
+        <li class="active">DNS Server</li>
+    </ul>
+    <h1><span class="fa fa-server"></span> DNS Server</h1>
+
+    <div class="row">
+        <div class="container">
+            <div class="panel panel-primary">
+                <div class="panel-heading">DNS Server Statistics</div>
+                <div class="panel-body">
+                    <h3>State: {{$ctrl.status.status}}</h3>
+                    <h3>Started: {{$ctrl.status.started}}</h3>
+
+                    <h3>Resolved: {{$ctrl.status.domainsResolved}}</h3>
+                    <h3>Failed: {{$ctrl.status.domainsFailed}}</h3>
+                    <h3>Cached: {{$ctrl.status.domainsCached}}</h3>
+                    <h3>Cache hits: {{$ctrl.status.cacheHits}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
