@@ -7,9 +7,6 @@ launchSettings.json
 appsettings.json
 connectionstrings.json
 
-/Web/src/WHD/wwwroot/lib/
-/Web/src/WHD/wwwroot/css/main.css
-
 *.lock.json
 *.suo
 *.user

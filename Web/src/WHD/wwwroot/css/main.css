@@ -1,0 +1,22 @@
+body {
+  padding-top: 50px;
+}
+.breadcrumb-margin {
+  margin-top: 10px;
+}
+.spacer {
+  margin: 5px 0 5px 0;
+}
+.key-value-table tbody tr td:first-child {
+  font-weight: bold;
+}
+.side-bar {
+  margin-left: 0px;
+}
+.load-icon {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background: url('/img/spin.gif') no-repeat;
+  background-size: 32px 32px;
+}
