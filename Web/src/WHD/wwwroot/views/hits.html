@@ -3,6 +3,42 @@
         <li><a href="#!/home">Home</a></li>
         <li class="active">Hits</li>
     </ul>
-    <h1><span class="fa fa-star"></span> Domain Hits</h1>
-
+    <h1><span class="fa fa-star"></span> Domain Hits <span class="load-icon" ng-hide="!$ctrl.isLoading"></span></h1>
+    <div class="col-lg-8">
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Domain</th>
+                        <th>Hits</th>
+                        <th>Last resolve</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr dir-paginate="hit in $ctrl.hits | itemsPerPage: $ctrl.pageSize" current-page="$ctrl.currentPage" total-items="$ctrl.totalCount">
+                        <td><a href="#!/domains/{{hit.domain}}">{{hit.domain}}</a></td>
+                        <td>{{hit.hits | addCommas}}</td>
+                        <td>{{hit.lastResolve | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            <dir-pagination-controls boundary-links="true" on-page-change="$ctrl.pageChangeHandler(newPageNumber)" template-url="/lib/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="row side-bar">
+            <div class="panel panel-default">
+                <div class="panel-heading">Search domains</div>
+                <div class="panel-body">
+                    <input type="text" ng-model="$ctrl.filterDomain" class="form-control" placeholder="Domain name" />
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

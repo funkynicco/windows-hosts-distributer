@@ -16,6 +16,7 @@ namespace WHD.DataAccess.IoC
             services.AddTransient<IStoreDataAccess, StoreDataAccess>();
             services.AddTransient<IDomainDataAccess, DomainDataAccess>();
             services.AddTransient<IServiceDataAccess, ServiceDataAccess>();
+            services.AddTransient<IHitsDataAccess, HitsDataAccess>();
         }
     }
 }

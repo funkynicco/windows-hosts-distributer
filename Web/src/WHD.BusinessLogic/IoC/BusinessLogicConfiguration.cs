@@ -17,6 +17,7 @@ namespace WHD.BusinessLogic.IoC
             services.AddTransient<IStoreBusinessLogic, StoreBusinessLogic>();
             services.AddTransient<IDomainBusinessLogic, DomainBusinessLogic>();
             services.AddTransient<IServiceBusinessLogic, ServiceBusinessLogic>();
+            services.AddTransient<IHitsBusinessLogic, HitsBusinessLogic>();
         }
     }
 }
