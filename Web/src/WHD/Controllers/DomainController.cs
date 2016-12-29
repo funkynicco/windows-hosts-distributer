@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WHD.BusinessLogic.Interfaces;
+using WHD.Models;
 
 namespace WHD.Controllers
 {
@@ -69,6 +70,39 @@ namespace WHD.Controllers
                 return NotFound();
 
             return Ok(details);
+        }
+
+        [HttpPut("{domain}")]
+        public async Task<IActionResult> Put(string domain, [FromBody]DomainModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!await _domainBusinessLogic.UpdateDomain(domain, model.Store, model.Domain, model.IP, model.Description))
+                return NotFound();
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]DomainModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!await _domainBusinessLogic.AddDomain(model.Store, model.Domain, model.IP, model.Description))
+                return BadRequest();
+
+            return Created("/api/domain/" + model.Domain, await _domainBusinessLogic.GetDomainDetails(model.Domain));
+        }
+
+        [HttpDelete("{domain}")]
+        public async Task<IActionResult> Delete(string domain)
+        {
+            if (!await _domainBusinessLogic.DeleteDomain(domain))
+                return NotFound();
+
+            return NoContent();
         }
     }
 }

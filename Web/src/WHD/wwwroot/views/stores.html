@@ -13,7 +13,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="store in $ctrl.stores">
+                    <tr ng-repeat="store in $ctrl.stores | filter:nameFilter">
                         <td>
                             <span class="fa fa-lock" ng-hide="!store.locked"></span> <a href="#!/domains?store={{store.id}}">{{store.name}}</a>
                             <div class="pull-right">
@@ -36,16 +36,16 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Search stores</div>
                 <div class="panel-body">
-                    <input type="text" id="name_query" class="form-control" placeholder="Name" />
+                    <input type="text" ng-model="nameFilter" class="form-control" placeholder="Name" />
                 </div>
             </div>
 
             <div class="panel panel-default">
                 <div class="panel-heading">Add store</div>
                 <div class="panel-body">
-                    <input type="text" placeholder="Name" class="form-control" />
+                    <input type="text" ng-model="storeName" placeholder="Name" class="form-control" />
                     <div class="spacer"></div>
-                    <input type="button" value="Add" class="btn btn-primary" />
+                    <input type="button" ng-click="$ctrl.addStore(storeName);storeName=''" value="Add" class="btn btn-primary" />
                 </div>
             </div>
         </div>

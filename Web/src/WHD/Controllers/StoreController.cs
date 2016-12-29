@@ -41,7 +41,7 @@ namespace WHD.Controllers
                 return BadRequest(ModelState);
 
             if (!await _storeBusinessLogic.SetStoreName(id, model.Name))
-                return BadRequest();
+                return NotFound();
 
             return NoContent();
         }
@@ -59,7 +59,7 @@ namespace WHD.Controllers
             return Created("/api/store/" + store.Id, store);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!await _storeBusinessLogic.DeleteStore(id))

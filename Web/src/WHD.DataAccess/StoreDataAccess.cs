@@ -53,7 +53,7 @@ namespace WHD.DataAccess
             return await query.ExecuteScalarAsync<bool>();
         }
 
-        public async Task<Store> AddStore(string name)
+        public async Task<int?> AddStore(string name)
         {
             using (var query = await Query("[dbo].[AddStore]")
                .CommandType(CommandType.StoredProcedure)
@@ -61,7 +61,7 @@ namespace WHD.DataAccess
                .ExecuteAsync())
             {
                 if (await query.ReadAsync())
-                    return Store.FromResult(query);
+                    return query.GetInt32("Id");
 
                 return null;
             }

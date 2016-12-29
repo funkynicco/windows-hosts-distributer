@@ -58,5 +58,40 @@ namespace WHD.DataAccess
                 return null;
             }
         }
+
+        public async Task<bool> UpdateDomain(string original_domain, int store, string new_domain, string ip, string description)
+        {
+            var query = Query("[dbo].[UpdateDomain]")
+                .CommandType(CommandType.StoredProcedure)
+                .AddParameter("domain", SqlDbType.VarChar, original_domain)
+                .AddParameter("store", SqlDbType.Int, store)
+                .AddParameter("new_domain", SqlDbType.VarChar, new_domain)
+                .AddParameter("ip", SqlDbType.VarChar, ip)
+                .AddParameter("description", SqlDbType.Text, description);
+
+            return await query.ExecuteScalarAsync<bool>();
+        }
+
+        public async Task<bool> AddDomain(int store, string domain, string ip, string description)
+        {
+            var query = Query("[dbo].[AddHost]")
+                .CommandType(CommandType.StoredProcedure)
+                .AddParameter("domain", SqlDbType.VarChar, domain)
+                .AddParameter("store", SqlDbType.Int, store)
+                .AddParameter("ip", SqlDbType.VarChar, ip)
+                .AddParameter("description", SqlDbType.Text, description)
+                .AddParameter("hidden", SqlDbType.Bit, false);
+
+            return await query.ExecuteScalarAsync<bool>();
+        }
+
+        public async Task<bool> DeleteDomain(string domain)
+        {
+            var query = Query("[dbo].[DeleteDomain]")
+                .CommandType(CommandType.StoredProcedure)
+                .AddParameter("domain", SqlDbType.VarChar, domain);
+
+            return await query.ExecuteScalarAsync<bool>();
+        }
     }
 }

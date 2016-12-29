@@ -32,9 +32,13 @@ namespace WHD.BusinessLogic
             return _storeDataAccess.SetStoreName(id, name);
         }
 
-        public Task<Store> AddStore(string name)
+        public async Task<Store> AddStore(string name)
         {
-            return _storeDataAccess.AddStore(name);
+            int? id = await _storeDataAccess.AddStore(name);
+            if (!id.HasValue)
+                return null;
+
+            return await _storeDataAccess.GetStore(id.Value);
         }
 
         public Task<bool> DeleteStore(int id)

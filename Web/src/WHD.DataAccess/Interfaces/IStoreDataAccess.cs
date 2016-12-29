@@ -14,7 +14,7 @@ namespace WHD.DataAccess.Interfaces
 
         Task<bool> SetStoreName(int id, string name);
 
-        Task<Store> AddStore(string name);
+        Task<int?> AddStore(string name);
 
         Task<bool> DeleteStore(int id);
     }

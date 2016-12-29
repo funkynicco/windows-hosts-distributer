@@ -20,3 +20,8 @@ body {
   background: url('/img/spin.gif') no-repeat;
   background-size: 32px 32px;
 }
+@media screen and (min-width: 600px) {
+  .edit-domain-dialog {
+    width: 450px;
+  }
+}

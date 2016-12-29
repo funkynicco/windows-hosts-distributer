@@ -31,5 +31,20 @@ namespace WHD.BusinessLogic
         {
             return _domainDataAccess.GetDomainDetails(domain);
         }
+
+        public Task<bool> UpdateDomain(string original_domain, int store, string new_domain, string ip, string description)
+        {
+            return _domainDataAccess.UpdateDomain(original_domain, store, new_domain, ip, description);
+        }
+
+        public Task<bool> AddDomain(int store, string domain, string ip, string description)
+        {
+            return _domainDataAccess.AddDomain(store, domain, ip, description);
+        }
+
+        public Task<bool> DeleteDomain(string domain)
+        {
+            return _domainDataAccess.DeleteDomain(domain);
+        }
     }
 }

@@ -16,7 +16,13 @@
                 <tbody>
                     <tr dir-paginate="domain in $ctrl.domains | itemsPerPage: $ctrl.pageSize" current-page="$ctrl.currentPage" total-items="$ctrl.totalCount">
                         <td><a href="#!/domains/{{domain.domain}}">{{domain.domain}}</a></td>
-                        <td>{{domain.ip}}</td>
+                        <td>
+                            {{domain.ip}}
+                            <div class="pull-right">
+                                <a href="#" ng-click="$ctrl.editDomain($event, domain.domain)" class="btn-sm btn-warning">Edit</a>
+                                <a href="#" ng-click="$ctrl.removeDomain($event, domain.domain)" class="btn-sm btn-danger">Remove</a>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -48,17 +54,17 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Add domain</div>
                 <div class="panel-body">
-                    <select class="form-control">
+                    <select class="form-control" ng-model="$ctrl.addDomainModel.store">
                         <option value="{{store.id}}" ng-repeat="store in $ctrl.stores">{{store.name}}</option>
                     </select>
                     <div class="spacer"></div>
-                    <input type="text" placeholder="Domain (e.g teapot.com)" class="form-control" />
+                    <input type="text" placeholder="Domain (e.g teapot.com)" class="form-control" ng-model="$ctrl.addDomainModel.domain" />
                     <div class="spacer"></div>
-                    <input type="text" placeholder="IP address" class="form-control" />
+                    <input type="text" placeholder="IP address" class="form-control" ng-model="$ctrl.addDomainModel.ip" />
                     <div class="spacer"></div>
-                    <textarea placeholder="Description" class="form-control"></textarea>
+                    <textarea placeholder="Description" class="form-control" ng-model="$ctrl.addDomainModel.description"></textarea>
                     <div class="spacer"></div>
-                    <input type="button" value="Add" class="btn btn-primary" />
+                    <input type="button" value="Add" class="btn btn-primary" ng-click="$ctrl.addDomain($event)" />
                     <a href="#!/stores" class="pull-right btn btn-info">Manage stores</a>
                 </div>
             </div>

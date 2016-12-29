@@ -1,0 +1,24 @@
+﻿<md-dialog md-theme="default" aria-label="Edit domain" class="edit-domain-dialog">
+    <form ng-cloak>
+        <md-dialog-content class="md-dialog-content">
+            <h3>Edit domain</h3>
+            <div ng-hide="isLoading">
+                <select class="form-control" ng-model="store">
+                    <option value="{{_store.id}}" ng-repeat="_store in stores">{{_store.name}}</option>
+                </select>
+                <div class="spacer"></div>
+                <input type="text" class="form-control" placeholder="Domain (e.g teapot.com)" ng-model="domain" />
+                <div class="spacer"></div>
+                <input type="text" class="form-control" placeholder="IP address" ng-model="ip" />
+                <div class="spacer"></div>
+                <textarea class="form-control" placeholder="Description" ng-model="description"></textarea>
+            </div>
+            <span class="load-icon" ng-hide="!isLoading"></span>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button class="md-primary" ng-click="answer(false)">Cancel</md-button>
+            <md-button class="md-primary" ng-click="answer(true)">Edit</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
