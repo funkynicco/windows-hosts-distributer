@@ -4,6 +4,7 @@
     config(parameters: any[]): IAngular;
     component(name: string, object: any): IAngular;
     element(val: any): IAngular;
+    filter(name: string, func: any): IAngular;
 }
 
 declare var angular: IAngular;
@@ -273,6 +274,14 @@ angular
         controller: ['$http', function Controller($http) {
             var self = this;
         }]
+    })
+
+angular
+    .module('whdApp')
+    .filter('addCommas', function () {
+        return function (str: string) {
+            return addCommas(str);
+        }
     })
 
 angular

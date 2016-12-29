@@ -228,6 +228,13 @@ angular
         }]
 });
 angular
+    .module('whdApp')
+    .filter('addCommas', function () {
+    return function (str) {
+        return addCommas(str);
+    };
+});
+angular
     .module('dnsserver', [])
     .component('dnsserver', {
     templateUrl: '/views/dns-server.html',

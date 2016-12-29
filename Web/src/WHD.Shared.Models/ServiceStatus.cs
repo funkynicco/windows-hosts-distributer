@@ -14,6 +14,8 @@ namespace WHD.Shared.Models
 
         public DateTime? Started { get; set; }
 
+        public DateTime? LastUpdate { get; set; }
+
         public long DomainsResolved { get; set; }
 
         public long DomainsFailed { get; set; }
@@ -28,6 +30,7 @@ namespace WHD.Shared.Models
             {
                 Status = result.GetEnum<ServiceState>("Status", SqlDbType.Int),
                 Started = result.GetUtcDateTime("Started"),
+                LastUpdate = result.GetUtcDateTime("LastUpdate"),
                 DomainsResolved = result.GetInt64("DomainsResolved"),
                 DomainsFailed = result.GetInt64("DomainsFailed"),
                 DomainsCached = result.GetInt64("DomainsCached"),

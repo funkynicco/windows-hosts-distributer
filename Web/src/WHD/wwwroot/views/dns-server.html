@@ -10,13 +10,13 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">DNS Server Statistics</div>
                 <div class="panel-body">
-                    <h3>State: {{$ctrl.status.status}}</h3>
-                    <h3>Started: {{$ctrl.status.started}}</h3>
+                    <h3>State: {{$ctrl.status.status ? 'Running' : 'Stopped'}}</h3>
+                    <h3>Started: {{$ctrl.status.started | date:'yyyy-MM-dd HH:mm:ss'}}</h3>
 
-                    <h3>Resolved: {{$ctrl.status.domainsResolved}}</h3>
-                    <h3>Failed: {{$ctrl.status.domainsFailed}}</h3>
-                    <h3>Cached: {{$ctrl.status.domainsCached}}</h3>
-                    <h3>Cache hits: {{$ctrl.status.cacheHits}}</h3>
+                    <h3>Resolved: {{$ctrl.status.domainsResolved | addCommas}}</h3>
+                    <h3>Failed: {{$ctrl.status.domainsFailed | addCommas}}</h3>
+                    <h3>Cached: {{$ctrl.status.domainsCached | addCommas}}</h3>
+                    <h3>Cache hits: {{$ctrl.status.cacheHits | addCommas}}</h3>
                 </div>
             </div>
         </div>

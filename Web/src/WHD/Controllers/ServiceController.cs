@@ -20,7 +20,12 @@ namespace WHD.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _serviceBusinessLogic.GetServiceStatus());
+            var status = await _serviceBusinessLogic.GetServiceStatus();
+            if (!status.LastUpdate.HasValue ||
+                (DateTime.UtcNow - status.LastUpdate.Value).TotalMinutes > 5)
+                status.Status = 0;
+
+            return Ok(status);
         }
     }
 }
