@@ -235,6 +235,21 @@ angular
     };
 });
 angular
+    .module('whdApp')
+    .filter('microTime', function () {
+    return function (micro) {
+        if (micro >= 1000.0) {
+            micro /= 1000.0;
+            if (micro >= 1000.0) {
+                micro /= 1000.0;
+                return addCommas('' + micro) + ' seconds';
+            }
+            return addCommas('' + micro) + ' ms';
+        }
+        return addCommas('' + micro) + ' us';
+    };
+});
+angular
     .module('dnsserver', [])
     .component('dnsserver', {
     templateUrl: '/views/dns-server.html',

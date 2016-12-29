@@ -24,6 +24,8 @@ namespace WHD.Shared.Models
 
         public long CacheHits { get; set; }
 
+        public long AverageResponse { get; set; }
+
         public static ServiceStatus FromResult(IQueryResult result)
         {
             return new ServiceStatus()
@@ -34,7 +36,8 @@ namespace WHD.Shared.Models
                 DomainsResolved = result.GetInt64("DomainsResolved"),
                 DomainsFailed = result.GetInt64("DomainsFailed"),
                 DomainsCached = result.GetInt64("DomainsCached"),
-                CacheHits = result.GetInt64("CacheHits")
+                CacheHits = result.GetInt64("CacheHits"),
+                AverageResponse = result.GetInt64("AverageResponse")
             };
         }
     }

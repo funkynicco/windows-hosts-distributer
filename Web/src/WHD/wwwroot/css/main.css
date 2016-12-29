@@ -10,6 +10,9 @@ body {
 .key-value-table tbody tr td:first-child {
   font-weight: bold;
 }
+.key-value-table-sm tbody tr td:first-child {
+  width: 200px;
+}
 .side-bar {
   margin-left: 0px;
 }
@@ -24,4 +27,10 @@ body {
   .edit-domain-dialog {
     width: 450px;
   }
+}
+.fa-color-green {
+  color: #06ae1c;
+}
+.fa-color-red {
+  color: #aa0000;
 }
